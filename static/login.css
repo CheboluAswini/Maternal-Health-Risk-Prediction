@@ -1,0 +1,215 @@
+/* Reset Default Styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Roboto', sans-serif;
+}
+
+/* Body Styling */
+body {
+    background: linear-gradient(135deg, #f8b4ef, #4db6ac, #d1a3e6); /* Maternal pastel gradient */
+    min-height: 100vh;
+    color: #1a3c34; /* Deep teal text */
+    line-height: 1.6;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    overflow-x: hidden;
+}
+
+/* Container Styling */
+.container {
+    max-width: 1200px;
+    margin: auto;
+    padding: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex: 1;
+}
+
+/* Login Container (Card) Styling */
+.login-container {
+    max-width: 450px;
+    width: 100%;
+    background: rgba(255, 255, 255, 0.95);
+    padding: 40px;
+    border-radius: 15px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    border-top: 4px solid #00cc99;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 70px 0 80px;
+}
+
+/* Heading Styling */
+.login-container h2 {
+    font-size: 2rem;
+    font-weight: 600;
+    color: #1a3c34;
+    margin-bottom: 30px;
+    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+}
+
+.login-container h2 i {
+    color: #4db6ac;
+    font-size: 1.5rem;
+}
+
+/* Form Styling */
+.login-container form {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+    align-items: center;
+}
+
+/* Input and Select Styling */
+input, select {
+    width: 100%;
+    max-width: 350px;
+    padding: 12px;
+    border: 1px solid #b3cde0;
+    border-radius: 8px;
+    font-size: 1rem;
+    background: #f7fafc;
+    margin-bottom: 15px;
+}
+
+input:focus, select:focus {
+    outline: none;
+    border-color: #0066cc;
+    background: #fff;
+}
+
+/* Button Styling */
+.btn {
+    width: 100%;
+    max-width: 350px;
+    padding: 12px;
+    background: linear-gradient(90deg, #0066cc, #00cc99);
+    color: #fff;
+    border: none;
+    border-radius: 25px;
+    font-size: 1.1rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    cursor: pointer;
+}
+
+.btn:hover {
+    background: linear-gradient(90deg, #005bb5, #00b386); /* Slight darker gradient on hover */
+}
+
+/* Error Message Styling */
+.error {
+    width: 100%;
+    max-width: 350px;
+    color: #e74c3c;
+    font-size: 0.9rem;
+    text-align: center;
+    margin: 10px 0;
+    padding: 8px;
+    background: #ffe6e6;
+    border-radius: 5px;
+    display: none;
+}
+
+.error:empty {
+    display: none;
+}
+
+/* Link Styling */
+.login-container p {
+    width: 100%;
+    max-width: 350px;
+    text-align: center;
+    margin-top: 20px;
+    font-size: 0.95rem;
+}
+
+.login-container a {
+    color: #0066cc;
+    text-decoration: none;
+    font-weight: 500;
+}
+
+.login-container a:hover {
+    color: #00cc99;
+    text-decoration: underline;
+}
+
+/* Navigation Links */
+.nav-links {
+    width: 100%;
+    max-width: 350px;
+    margin-top: 20px;
+    text-align: center;
+}
+
+.nav-links a {
+    color: #0066cc;
+    font-size: 1rem;
+    padding: 8px 16px;
+    border-radius: 5px;
+    text-decoration: none;
+}
+
+.nav-links a::before {
+    content: "\f015"; /* Home icon */
+    font-family: "Font Awesome 5 Free";
+    font-weight: 900;
+    margin-right: 8px;
+}
+
+.nav-links a:hover {
+    color: #00cc99;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .login-container {
+        max-width: 90%;
+        padding: 30px;
+    }
+
+    input, select, .btn, .error, .login-container p, .nav-links {
+        max-width: 100%;
+    }
+
+    .login-container h2 {
+        font-size: 1.5rem;
+    }
+
+    input, select, .btn {
+        font-size: 0.95rem;
+        padding: 10px;
+    }
+}
+
+@media (max-width: 480px) {
+    .login-container {
+        padding: 20px;
+    }
+
+    .login-container h2 {
+        font-size: 1.3rem;
+    }
+
+    input, select, .btn {
+        padding: 8px;
+    }
+
+    .login-container p, .nav-links a {
+        font-size: 0.85rem;
+    }
+}

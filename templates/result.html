@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Prediction Result</title>
+    <link rel="icon" type="image/x-icon" href="{{ url_for('static', filename='favicon.ico') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="{{ url_for('static', filename='result.css') }}">
+</head>
+<body>
+    <div class="container result-container">
+        <h1>Prediction Result</h1>
+        {% if error %}
+            <div class="error" style="color: red; font-weight: bold; margin-bottom: 20px;">
+                <strong>Error:</strong> {{ error }}
+            </div>
+        {% endif %}
+        {% if prediction %}
+            <div class="result-item">
+                <strong>Risk Level:</strong>
+                <span>{{ prediction.risk }}</span>
+            </div>
+            <div class="result-item">
+                <strong>Risk Factors:</strong>
+                <span>{{ prediction.risk_factors | join(", ") }}</span>
+            </div>
+            <div class="result-item">
+                <strong>Recommendation:</strong>
+                <span>{{ prediction.recommendation if prediction.recommendation else "No specific recommendations. Continue regular prenatal care." }}</span>
+            </div>
+            <div class="result-item">
+                <strong>Health Guidance:</strong>
+                <div id="health-guidance" data-raw="{{ prediction.health_guidance }}"></div>
+            </div>
+            <div class="result-item">
+                <strong>Details:</strong>
+                <ul class="result-list">
+                    <li>Age: {{ prediction.details.age }}</li>
+                    <li>Systolic BP: {{ prediction.details.systolic_bp }}</li>
+                    <li>Diastolic BP: {{ prediction.details.diastolic_bp }}</li>
+                    <li>Blood Sugar: {{ prediction.details.bs|float|round(1) }}</li>
+                    <li>Body Temp: {{ prediction.details.body_temp|float|round(1) }}</li>
+                    <li>Heart Rate: {{ prediction.details.heart_rate }}</li>
+                    <li>Hemoglobin Level: {{ prediction.details.hemoglobin_level|float|round(1) }}</li>
+                    <li>Thyroid: {{ prediction.details.thyroid }}</li>
+                </ul>
+            </div>
+            {% if prediction.risk == 'High' %}
+                <div class="high-risk-alert">
+                    <h2>Urgent Action Required</h2>
+                    <p>Your risk level is High. We strongly recommend consulting a doctor immediately. Below are some specialists you can contact:</p>
+                    <ul class="doctor-list">
+                        <li>
+                            <strong>Dr. Aarohi - Gynaecologist</strong> <br>
+                            Phone: +91 1234567890<br>
+                            Email: <a href="mailto:dr.aarohi@example.com">dr.aarohi@example.com</a>
+                        </li>
+                        <li>
+                            <strong>Dr. Michael</strong><br>
+                            Phone: +91 9876543210<br>
+                            Email: <a href="mailto:dr.michael@example.com">dr.michael@example.com</a>
+                        </li>
+                        <li>
+                            <strong>Dr. Johnson</strong><br>
+                            Phone: +91 7418529630<br>
+                            Email: <a href="mailto:dr.johnson@example.com">dr.johnson@example.com</a>
+                        </li>
+                    </ul>
+                </div>
+            {% endif %}
+            <form method="POST" action="{{ url_for('save_result') }}">
+                <button type="submit" class="btn">Save</button>
+            </form>
+        {% else %}
+            <p>No prediction available. Please try again.</p>
+        {% endif %}
+        <div class="nav-links">
+            <a href="{{ url_for('user_dashboard') }}">Back to Dashboard</a>
+            <a href="{{ url_for('logout') }}">Logout</a>
+        </div>
+    </div>
+
+    <footer class="footer">
+        <div class="footer-container">
+            <div class="footer-section">
+                <h3>About</h3>
+                <p>Health Predictor uses machine learning to assess health risks and provide recommendations based on your medical data.</p>
+            </div>
+            <div class="footer-section">
+                <h3>Useful Links</h3>
+                <ul class="footer-links">
+                    <li><a href="{{ url_for('index') }}">Home</a></li>
+                    <li><a href="{{ url_for('about') }}">About</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h3>Contact</h3>
+                <p>Phone: +91 9999999999</p>
+                <p>Email: <a href="mailto:support@healthpredictor.com">support@healthpredictor.com</a></p>
+            </div>
+            <div class="footer-section">
+                <h3>Follow Us</h3>
+                <div class="social-icons">
+                    <a href="https://facebook.com" target="_blank" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+                    <a href="https://twitter.com" target="_blank" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
+                    <a href="https://instagram.com" target="_blank" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+                    <a href="https://telegram.org" target="_blank" aria-label="Telegram"><i class="fab fa-telegram-plane"></i></a>
+                    <a href="https://youtube.com" target="_blank" aria-label="YouTube"><i class="fab fa-youtube"></i></a>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>© 2025 HealthRiskPrediction. All rights reserved.</p>
+        </div>
+    </footer>
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const container = document.getElementById("health-guidance");
+            if (container && container.dataset.raw) {
+                const raw = container.dataset.raw;
+                const formatted = raw
+                    .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
+                    .replace(/•\s*/g, '</li><li>')
+                    .replace(/<strong>(.*?)<\/strong>/g, '</ul><li><strong>$1</strong><ul>')
+                    .replace(/^<\/ul>/, '')
+                    .concat('</ul></li></ul>');
+                container.classList.add("result-item", "result-guidance");
+                container.innerHTML = `<ul class="result-list">${formatted}</ul>`;
+            } else {
+                console.log("Health guidance container not found or no data available");
+            }
+        });
+    </script>
+</body>
+</html>

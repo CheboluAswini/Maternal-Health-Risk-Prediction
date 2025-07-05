@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Admin Dashboard</title>
+    <link rel="icon" type="image/x-icon" href="{{ url_for('static', filename='favicon.ico') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" crossorigin="anonymous">
+    <link rel="stylesheet" href="{{ url_for('static', filename='admin_dashboard.css') }}">
+</head>
+<body>
+    <div class="container dashboard-container">
+        <div class="header-row">
+            <h1>Welcome, {{ name }}</h1>
+            <div class="admin-stats">
+                <p><strong>Total Users:</strong> {{ total_users }}</p>
+            </div>
+        </div>
+
+        {% if error %}
+            <p class="error">{{ error }}</p>
+        {% endif %}
+
+        <div class="table-content">
+            <h2>Latest Records</h2>
+
+            {% if records %}
+            <div class="table-wrapper">
+                <table>
+                    <tr>
+                        <th>Date</th>
+                        <th>User Name</th>
+                        <th>Risk Level</th>
+                        <th>Risk Factors</th>
+                        <th>Recommendation</th>
+                        <!-- <th>Doctor Recommendation</th> -->
+                        <th>Age</th>
+                        <th>Systolic BP</th>
+                        <th>Diastolic BP</th>
+                        <th>Blood Sugar</th>
+                        <th>Body Temp</th>
+                        <th>Heart Rate</th>
+                        <th>Hemoglobin</th>
+                        <th>Thyroid</th>
+                        <th>Action</th>
+                    </tr>
+                    {% for record in records %}
+                    <tr>
+                        <td>{{ record.date }}</td>
+                        <td>{{ record.user_name }}</td>
+                        <td>{{ record.risk }}</td>
+                        <td>{{ record.risk_factors | join(', ') }}</td>
+                        <td>{{ record.recommendation }}</td>
+                        <!-- <td>{{ record.doctor_recommendation|default('None yet') }}</td> -->
+                        <td>{{ record.details.age }}</td>
+                        <td>{{ record.details.systolic_bp }}</td>
+                        <td>{{ record.details.diastolic_bp }}</td>
+                        <td>{{ record.details.bs|float|round(1) }}</td>
+                        <td>{{ record.details.body_temp|float|round(1) }}</td>
+                        <td>{{ record.details.heart_rate }}</td>
+                        <td>{{ record.details.hemoglobin_level|float|round(1) }}</td>
+                        <td>{{ record.details.thyroid }}</td>
+                        <td>
+                            <button class="btn view-recommendation-btn"
+                                    data-risk-factors="{{ record.risk_factors | join(', ') }}"
+                                    data-recommendation="{{ record.recommendation }}"
+                                    data-doctor-recommendation="{{ record.doctor_recommendation|default('None yet') }}">View Recommendation</button>
+                            <a href="{{ url_for('doctor_recommendation', record_id=loop.index0, user_email=record.user_email) }}" class="btn">Prescription</a>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </table>
+            </div>
+            {% else %}
+                <p>No records found.</p>
+            {% endif %}
+        </div>
+
+        <div class="nav-links">
+            <a href="{{ url_for('logout') }}">Logout</a>
+        </div>
+    </div>
+
+    <footer class="footer" id="footer">
+        <div class="footer-container">
+            <div class="footer-section">
+                <h3>About</h3>
+                <p>Health Predictor uses machine learning to assess health risks and provide recommendations based on your medical data.</p>
+            </div>
+            <div class="footer-section">
+                <h3>Useful Links</h3>
+                <ul class="footer-links">
+                    <li><a href="{{ url_for('index') }}">Home</a></li>
+                    <li><a href="{{ url_for('about') }}">About</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h3>Contact</h3>
+                <p>Phone: +91 9999999999</p>
+                <p>Email: <a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="4a393f3a3a25383e0a222f2b263e223a382f2e23293e253864292527">[email&#160;protected]</a></p>
+            </div>
+            <div class="footer-section">
+                <h3>Follow Us</h3>
+                <div class="social-icons">
+                    <a href="https://facebook.com" target="_blank" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+                    <a href="https://twitter.com" target="_blank" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
+                    <a href="https://instagram.com" target="_blank" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+                    <a href="https://telegram.org" target="_blank" aria-label="Telegram"><i class="fab fa-telegram-plane"></i></a>
+                    <a href="https://youtube.com" target="_blank" aria-label="YouTube"><i class="fab fa-youtube"></i></a>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>© 2025 Health Predictor. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const modal = document.createElement('div');
+            modal.className = 'modal';
+            modal.innerHTML = `
+                <div class="modal-content">
+                    <span class="close-btn">×</span>
+                    <h3>Recommendations</h3>
+                    <p><strong>Risk Factors:</strong> <span id="modal-risk-factors"></span></p>
+                    <p><strong>Recommendation:</strong> <span id="modal-recommendation"></span></p>
+                    <p><strong>Doctor Recommendation:</strong> <span id="modal-doctor-recommendation"></span></p>
+                </div>
+            `;
+            document.body.appendChild(modal);
+
+            document.querySelectorAll('.view-recommendation-btn').forEach(btn => {
+                btn.addEventListener('click', () => {
+                    document.getElementById('modal-risk-factors').textContent = btn.dataset.riskFactors;
+                    document.getElementById('modal-recommendation').textContent = btn.dataset.recommendation;
+                    document.getElementById('modal-doctor-recommendation').textContent = btn.dataset.doctorRecommendation;
+                    modal.style.display = 'flex';
+                });
+            });
+
+            modal.querySelector('.close-btn').addEventListener('click', () => {
+                modal.style.display = 'none';
+            });
+
+            modal.addEventListener('click', (e) => {
+                if (e.target === modal) {
+                    modal.style.display = 'none';
+                }
+            });
+        });
+    </script>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9366c2455fa2bfd8',t:'MTc0NTY3NzYyNS4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script><script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'93671a395edfbf86',t:'MTc0NTY4MTIyNy4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+</html>

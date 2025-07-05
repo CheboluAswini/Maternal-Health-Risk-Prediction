@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>User Dashboard</title>
+    <link rel="icon" type="image/x-icon" href="{{ url_for('static', filename='favicon.ico') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="{{ url_for('static', filename='user_dashboard.css') }}">
+</head>
+<body>
+    <div class="container dashboard-container">
+        <h1><i class="fas fa-user" style="color: #4db6ac;"></i> Welcome, {{ name }}</h1>
+
+        <section class="how-it-works">
+            <h2>How It Works</h2>
+            <ol>
+                <li>Click <strong>New Data</strong> to input your latest health measurements.</li>
+                <li>Click <strong>Previous Records</strong>  to compare your progress over time.</li>
+                <li>Our system analyzes your input using advanced predictive models.</li>
+                <li>You instantly receive a risk level, contributing risk factors, and recommendations.</li>
+                <li>Your data is stored securely, and you can revisit all previous records anytime.</li>
+            </ol>
+        </section>
+
+        <section class="features-section">
+            <h2>Key Features</h2>
+            <ul>
+                <li><strong>Real-time Health Risk Assessment</strong> using AI.</li>
+                <li><strong>Personalized Medical Advice</strong> tailored to your inputs.</li>
+                <li><strong>Secure Record Keeping</strong> with complete health history.</li>
+                <li><strong>Doctor Recommendations</strong> to guide your next steps.</li>
+            </ul>
+        </section>
+
+        <div class="nav-actions">
+            <div class="navigation-tabs">
+                <button id="new-data-btn" class="nav-btn">New Data</button>
+                <button id="previous-records-btn" class="nav-btn">Previous Records</button>
+            </div>
+            <div class="logout-container">
+                <a href="{{ url_for('logout') }}" class="logout-btn">Logout</a>
+            </div>
+        </div>
+       
+        <div id="records-section" style="display: none;">
+            {% if prediction %}
+            <div class="latest-prediction-section">
+                <h2>Latest Prediction</h2>
+                <p><strong>Risk Level:</strong> {{ prediction.risk }}</p>
+                <p><strong>Risk Factors:</strong> {{ prediction.risk_factors | join(', ') }}</p>
+                <p><strong>Recommendation:</strong> {{ prediction.recommendation }}</p>
+                <p><strong>Doctor Recommendation:</strong> {{ prediction.doctor_recommendation|default('None yet') }}</p>
+                <p><strong>Date:</strong> {{ prediction.date }}</p>
+                <ul>
+                    <li>Age: {{ prediction.details.age }}</li>
+                    <li>Systolic BP: {{ prediction.details.systolic_bp }}</li>
+                    <li>Diastolic BP: {{ prediction.details.diastolic_bp }}</li>
+                    <li>Blood Sugar: {{ prediction.details.bs }}</li>
+                    <li>Body Temp: {{ prediction.details.body_temp }}</li>
+                    <li>Heart Rate: {{ prediction.details.heart_rate }}</li>
+                    <li>Hemoglobin Level: {{ prediction.details.hemoglobin_level }}</li>
+                    <li>Thyroid: {{ prediction.details.thyroid }}</li>
+                </ul>
+            </div>
+            {% endif %}
+
+            <div class="previous-records-section">
+                <h2>Previous Records</h2>
+                {% if records %}
+                <div class="table-wrapper">
+                    <table>
+                        <tr>
+                            <th>Date</th>
+                            <th>Risk Level</th>
+                            <!-- <th>Risk Factors</th>
+                            <th>Recommendation</th>
+                            <th>Doctor Recommendation</th> -->
+                            <th>Age</th>
+                            <th>Systolic BP</th>
+                            <th>Diastolic BP</th>
+                            <th>Blood Sugar</th>
+                            <th>Body Temp</th>
+                            <th>Heart Rate</th>
+                            <th>Hemoglobin</th>
+                            <th>Thyroid</th>
+                            <th>Action</th>
+                        </tr>
+                        {% for record in records %}
+                        <tr>
+                            <td>{{ record.date }}</td>
+                            <td>{{ record.risk }}</td>
+                            <!-- <td>{{ record.risk_factors | join(', ') }}</td>
+                            <td>{{ record.recommendation }}</td>
+                            <td>{{ record.doctor_recommendation|default('None yet') }}</td> -->
+                            <td>{{ record.details.age }}</td>
+                            <td>{{ record.details.systolic_bp }}</td>
+                            <td>{{ record.details.diastolic_bp }}</td>
+                            <td>{{ record.details.bs }}</td>
+                            <td>{{ record.details.body_temp }}</td>
+                            <td>{{ record.details.heart_rate }}</td>
+                            <td>{{ record.details.hemoglobin_level }}</td>
+                            <td>{{ record.details.thyroid }}</td>
+                            <td>
+                                <button class="btn view-recommendation-btn"
+                                    data-risk-factors="{{ record.risk_factors | join(', ') }}"
+                                    data-recommendation="{{ record.recommendation }}"
+                                    data-doctor-recommendation="{{ record.doctor_recommendation|default('None yet') }}">
+                                    View Recommendation
+                                </button>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </table>
+                </div>
+                {% else %}
+                    <p>No previous records found.</p>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+
+    <footer class="footer">
+        <div class="footer-container">
+            <div class="footer-section">
+                <h3>About</h3>
+                <p>Health Predictor uses machine learning to assess health risks and provide recommendations based on your medical data.</p>
+            </div>
+            <div class="footer-section">
+                <h3>Useful Links</h3>
+                <ul class="footer-links">
+                    <li><a href="{{ url_for('index') }}">Home</a></li>
+                    <li><a href="{{ url_for('about') }}">About</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h3>Contact</h3>
+                <p>Phone: +91 9999999999</p>
+                <p>Email: <a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="1665636666796462567e73777a627e666473727f756279643875797b">[email&#160;protected]</a></p>
+            </div>
+            <div class="footer-section">
+                <h3>Follow Us</h3>
+                <div class="social-icons">
+                    <a href="https://facebook.com" target="_blank"><i class="fab fa-facebook-f"></i></a>
+                    <a href="https://twitter.com" target="_blank"><i class="fab fa-twitter"></i></a>
+                    <a href="https://instagram.com" target="_blank"><i class="fab fa-instagram"></i></a>
+                    <a href="https://telegram.org" target="_blank"><i class="fab fa-telegram-plane"></i></a>
+                    <a href="https://youtube.com" target="_blank"><i class="fab fa-youtube"></i></a>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>© 2025 HealthRiskPrediction. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const modal = document.createElement('div');
+            modal.className = 'modal';
+            modal.innerHTML = `
+                <div class="modal-content">
+                    <span class="close-btn">×</span>
+                    <h3>Recommendations</h3>
+                    <p><strong>Recommendation:</strong> <span id="modal-recommendation"></span></p>
+                    <p><strong>Doctor Recommendation:</strong> <span id="modal-doctor-recommendation"></span></p>
+                    <p><strong>Risk Factors:</strong> <span id="modal-risk-factors"></span></p>
+                </div>
+            `;
+            document.body.appendChild(modal);
+
+            document.querySelectorAll('.view-recommendation-btn').forEach(btn => {
+                btn.addEventListener('click', () => {
+                    document.getElementById('modal-recommendation').textContent = btn.dataset.recommendation;
+                    document.getElementById('modal-doctor-recommendation').textContent = btn.dataset.doctorRecommendation;
+                    document.getElementById('modal-risk-factors').textContent = btn.dataset.riskFactors;
+                    modal.style.display = 'flex';
+                });
+            });
+
+            modal.querySelector('.close-btn').addEventListener('click', () => {
+                modal.style.display = 'none';
+            });
+
+            modal.addEventListener('click', (e) => {
+                if (e.target === modal) {
+                    modal.style.display = 'none';
+                }
+            });
+
+            document.getElementById('new-data-btn').addEventListener('click', () => {
+                window.location.href = "{{ url_for('newdata') }}";
+            });
+
+            document.getElementById('previous-records-btn').addEventListener('click', () => {
+                document.getElementById('records-section').style.display = 'block';
+            });
+        });
+    </script>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'93673846fc147b98',t:'MTc0NTY4MjQ1OC4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+</html>

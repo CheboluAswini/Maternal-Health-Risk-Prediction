@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>About - Health Predictor</title>
+        <link rel="icon" type="image/x-icon" href="{{ url_for('static', filename='favicon.ico') }}">
+        <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+        <link rel="stylesheet" href="{{ url_for('static', filename='about.css') }}">
+    </head>
+<body>
+    <nav class="navbar">
+        <div class="navbar-container">
+            <h4 class="navbar-brand">MATERNAL HEALTH RISK PREDICTION</h4>
+            <ul class="navbar-links">
+                <li><a href="{{ url_for('login') }}">Login</a></li>
+                <li><a href="{{ url_for('about') }}"><i class="fas fa-info-circle"></i>About</a></li>
+                <li><a href="#footer"><i class="fas fa-envelope"></i>Contact Us</a></li>
+            </ul>
+        </div>
+    </nav>
+    <div class="container about-container">
+        <h1>Maternal Health Prediction</h1>
+        <section>
+            <h2>Project Overview</h2>
+            <p>
+                Health Predictor is an application designed to assess health risks based on user-provided medical data. Leveraging machine learning, it predicts risk levels (Low, Medium, High) and provides tailored recommendations, empowering users to monitor their health effectively.
+            </p>
+        </section>
+        <section>
+            <h2>Process</h2>
+            <ol>
+                <li><strong>User Registration:</strong> New users sign up with their name, email, password, and role (User or Admin).</li>
+                <li><strong>Authentication:</strong> Users log in with their credentials, redirecting to their respective dashboards (User or Admin).</li>
+                <li><strong>Data Entry:</strong> Users input health metrics (e.g., age, blood pressure, blood sugar) via the "Enter New Data" page.</li>
+                <li><strong>Prediction:</strong> The system processes the data using a trained machine learning model to predict risk levels.</li>
+                <li><strong>Result Display:</strong> Predictions are shown on a result page, with an option to save them to the database.</li>
+                <li><strong>Dashboard Access:</strong> Saved records are displayed on the user dashboard, while admins view all users' latest records.</li>
+            </ol>
+        </section>
+        <section>
+            <h2>Workflow</h2>
+            <p>The workflow is designed for simplicity and efficiency:</p>
+            <ul>
+                <li><strong>Welcome Page:</strong> Users start here and proceed to login.</li>
+                <li><strong>Login/Signup:</strong> Secure authentication routes users to their dashboards.</li>
+                <li><strong>User Dashboard:</strong> Displays the user's latest prediction and historical records, with an option to enter new data.</li>
+                <li><strong>Data Input → Prediction → Save:</strong> Users enter data, view predictions, and save them, looping back to the dashboard.</li>
+                <li><strong>Admin Dashboard:</strong> Shows the latest 10 records across all users for monitoring purposes. And the admin/doctor can give recommendation to the particular user.</li>
+                <li><strong>Logout:</strong> Ends the session and returns to the welcome page.</li>
+            </ul>
+        </section>
+    </div>
+    <a href="{{ url_for('logout') }}" class="back-button"><i class="fas fa-arrow-left"></i> Back</a>
+    <footer class="footer" id="footer">
+        <div class="footer-container">
+            <div class="footer-section">
+                <h3>About</h3>
+                <p>Health Predictor uses machine learning to assess health risks and provide recommendations based on your medical data.</p>
+            </div>
+            <div class="footer-section">
+                <h3>Useful Links</h3>
+                <ul class="footer-links">
+                    <li><a href="{{ url_for('index') }}">Home</a></li>
+                    <li><a href="{{ url_for('about') }}">About</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h3>Contact</h3>
+                <p>Phone: +91 9999999999
+                <p>Email: support@healthpredictor.com</p>
+            </div>
+            <div class="footer-section">
+                <h3>Follow Us</h3>
+                <div class="social-icons">
+                    <a href="https://facebook.com" target="_blank" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+                    <a href="https://twitter.com" target="_blank" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
+                    <a href="https://instagram.com" target="_blank" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+                    <a href="https://telegram.org" target="_blank" aria-label="Telegram"><i class="fab fa-telegram-plane"></i></a>
+                    <a href="https://youtube.com" target="_blank" aria-label="YouTube"><i class="fab fa-youtube"></i></a>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>© 2025 HealthRiskPrediction. All rights reserved.</p>
+        </div>
+    </footer>
+    <script>
+        // Smooth scroll to footer
+        document.querySelectorAll('a[href="#footer"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                document.querySelector('#footer').scrollIntoView({ behavior: 'smooth' });
+            });
+        });
+    </script>
+</body>
+</html>

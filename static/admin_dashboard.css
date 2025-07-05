@@ -1,0 +1,439 @@
+/* Reset Default Styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Roboto', sans-serif;
+}
+
+/* Body Styling */
+body {
+    background: linear-gradient(135deg, #f8b4ef, #4db6ac, #d1a3e6); /* Maternal pastel gradient */
+    min-height: 100vh;
+    color: #1a3c34; /* Deep teal text */
+    line-height: 1.6;
+    display: flex;
+    flex-direction: column;
+    overflow-x: hidden;
+}
+
+/* Container Styling */
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 50px;
+    margin-bottom: 50px;
+}
+
+/* Dashboard Container Styling */
+.dashboard-container {
+    max-width: 1100px; /* Wide container for table */
+    width: 100%;
+    background: rgba(255, 255, 255, 0.95); /* White with transparency */
+    padding: 40px;
+    border-radius: 15px;
+    box-shadow: 0 5px 25px rgba(0, 0, 0, 0.2);
+    border-top: 4px solid #00cc99; /* Health green accent */
+    display: flex;
+    flex-direction: column; /* Stack header row and table content vertically */
+    align-items: center;
+    margin-top: 20px;
+}
+
+/* Header Row for Welcome and Total Users */
+.header-row {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between; /* Spread welcome and total users */
+    width: 100%;
+    margin-bottom: 10px; /* Space before Latest Records */
+    margin-left: 550px;
+}
+
+/* Heading Styling */
+.dashboard-container h1 {
+    font-size: 2.8rem;
+    font-weight: 700;
+    color: #1a3c34;
+    text-align: left; /* Align left within header row */
+    margin: 0; /* Remove default margins */
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.2);
+}
+
+/* Admin Stats Styling */
+.admin-stats {
+    font-size: 1.2rem;
+    text-align: right; /* Align right within header row */
+    margin: 0; /* Remove default margins */
+    padding: 5px 0; /* Minimal padding */
+    margin-right: 300px;
+    margin-top: 30px;
+}
+
+.admin-stats p {
+    margin: 0;
+}
+
+.admin-stats strong {
+    color: #0066cc; /* Medical blue */
+}
+
+/* Error Message Styling */
+.error {
+    width: 100%;
+    max-width: 700px;
+    color: #e74c3c; /* Medical red */
+    font-size: 1rem;
+    text-align: center;
+    margin-bottom: 20px;
+    padding: 10px;
+    background: #ffe6e6;
+    border-radius: 5px;
+}
+
+/* Table Content Styling */
+.table-content {
+    width: 100%; /* Full width for table */
+}
+
+/* Heading for Latest Records */
+.dashboard-container h2 {
+    font-size: 1.8rem;
+    font-weight: 600;
+    color: #1a3c34;
+    margin: 5px 0; /* Tight vertical spacing */
+    text-align: center;
+    width: 100%;
+}
+
+/* Table Container for Scrollability */
+.table-wrapper {
+    width: 100%;
+    max-width: 100%;
+    overflow-x: auto;
+    margin: 20px 0;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+/* Table Styling */
+table {
+    width: 100%;
+    min-width: 1000px; /* Ensures table accommodates all columns */
+    border-collapse: collapse;
+    background: #fff;
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+th, td {
+    padding: 14px;
+    text-align: center;
+    border-bottom: 1px solid #e0e0e0;
+    font-size: 0.95rem;
+}
+
+th {
+    background: linear-gradient(90deg, #0066cc, #00cc99); /* Medical gradient */
+    color: #fff;
+    font-weight: 600;
+    text-transform: uppercase;
+    position: sticky;
+    top: 0;
+    z-index: 1;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* Specific Column Widths */
+th:nth-child(1), td:nth-child(1) { width: 10%; } /* Date */
+th:nth-child(2), td:nth-child(2) { width: 10%; } /* User Name */
+th:nth-child(3), td:nth-child(3) { width: 8%; } /* Risk Level */
+th:nth-child(4), td:nth-child(4) { 
+    display: none; /* Hidden by default, shown in modal */
+} /* Recommendation */
+th:nth-child(5), td:nth-child(5) { 
+    display: none; /* Hidden by default, shown in modal */
+} /* Doctor Recommendation */
+th:nth-child(6), td:nth-child(6) { width: 6%; } /* Age */
+th:nth-child(7), td:nth-child(7) { width: 8%; } /* Systolic BP */
+th:nth-child(8), td:nth-child(8) { width: 8%; } /* Diastolic BP */
+th:nth-child(9), td:nth-child(9) { width: 8%; } /* Blood Sugar */
+th:nth-child(10), td:nth-child(10) { width: 8%; } /* Body Temp */
+th:nth-child(11), td:nth-child(11) { width: 8%; } /* Heart Rate */
+th:nth-child(12), td:nth-child(12) { width: 8%; } /* Hemoglobin */
+th:nth-child(13), td:nth-child(13) { width: 8%; } /* Thyroid */
+th:nth-child(14), td:nth-child(14) { width: 10%; } /* Action */
+
+/* Button Styling */
+.btn {
+    display: inline-block;
+    padding: 8px 16px;
+    background: linear-gradient(90deg, #0066cc, #00cc99);
+    color: #fff;
+    border: none;
+    border-radius: 25px;
+    font-size: 0.9rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    text-decoration: none;
+    cursor: pointer;
+    box-shadow: 0 5px 15px rgba(0, 102, 204, 0.3);
+}
+.nav-links a {
+    display: inline-block;
+    padding: 10px 20px;
+    background: linear-gradient(90deg, #0066cc, #00cc99);
+    color: #ffffff;
+    text-decoration: none;
+    border-radius: 30px;
+    font-size: 16px;
+    font-weight: 500;
+    font-family: 'Arial', sans-serif;
+    transition: all 0.3s ease;
+    text-align: center;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+.nav-links a:active {
+    transform: translateY(0);
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+}
+
+.nav-links a:focus {
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.3);
+}
+/* View Recommendation Button */
+.view-recommendation-btn {
+    padding: 6px 5px;
+    font-size: 0.85rem;
+    background: linear-gradient(90deg, #4db6ac, #00cc99);
+    margin-top: 5px;
+    margin-bottom: 5px;
+}
+
+/* Modal Styling */
+.modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: 1000;
+    justify-content: center;
+    align-items: center;
+}
+
+.modal-content {
+    background: #fff;
+    padding: 20px;
+    border-radius: 10px;
+    max-width: 600px;
+    width: 90%;
+    position: relative;
+    box-shadow: 0 5px 25px rgba(0, 0, 0, 0.3);
+}
+
+.modal-content h3 {
+    font-size: 1.5rem;
+    color: #1a3c34;
+    margin-bottom: 15px;
+}
+
+.modal-content p {
+    font-size: 1rem;
+    margin-bottom: 10px;
+}
+
+.modal-content .close-btn {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    font-size: 1.5rem;
+    color: #1a3c34;
+    cursor: pointer;
+}
+
+/* Navigation Links */
+.nav-links {
+    width: 100%;
+    max-width: 700px;
+    margin-top: 20px;
+    text-align: center;
+}
+
+.nav-links a {
+    color: #0066cc;
+    font-size: 1rem;
+    padding: 8px 16px;
+    border-radius: 5px;
+    text-decoration: none;
+}
+
+/* Footer Styling */
+.footer {
+    background: linear-gradient(180deg, #1a3c34, #003d33);
+    color: #fff;
+    padding: 50px 0 20px;
+    margin-top: 40px;
+    width: 100%;
+}
+
+.footer-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    padding: 0 20px;
+}
+
+.footer-section {
+    flex: 1;
+    min-width: 200px;
+    margin-bottom: 30px;
+}
+
+.footer-section h3 {
+    color: #00cc99;
+    font-size: 1.5rem;
+    margin-bottom: 15px;
+    text-shadow: 1px 1px 5px rgba(0, 0, 0, 0.2);
+}
+
+.footer-section p {
+    font-size: 1rem;
+    line-height: 1.8;
+}
+
+.footer-links {
+    list-style: none;
+    padding: 0;
+}
+
+.footer-links li {
+    margin-bottom: 12px;
+}
+
+.footer-links a {
+    color: #fff;
+    text-decoration: none;
+    font-size: 1rem;
+}
+
+.social-icons {
+    display: flex;
+    gap: 20px;
+}
+
+.social-icons a {
+    color: #fff;
+    font-size: 1.8rem;
+}
+
+.footer-bottom {
+    text-align: center;
+    padding-top: 20px;
+    border-top: 1px solid rgba(255, 255, 255, 0.2);
+    margin-top: 20px;
+}
+
+.footer-bottom p {
+    font-size: 0.9rem;
+    opacity: 0.8;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .dashboard-container {
+        max-width: 90%;
+        padding: 30px;
+    }
+
+    .header-row {
+        flex-direction: column; /* Stack vertically on small screens */
+        align-items: center;
+        text-align: center;
+    }
+
+    .dashboard-container h1 {
+        font-size: 2rem;
+    }
+
+    .admin-stats {
+        text-align: center; /* Center on small screens */
+        margin-top: 5px;
+    }
+
+    .dashboard-container h2 {
+        font-size: 1.5rem;
+    }
+
+    .error, .nav-links {
+        max-width: 100%;
+    }
+
+    th, td {
+        padding: 10px;
+        font-size: 0.9rem;
+    }
+
+    .footer-container {
+        flex-direction: column;
+        text-align: center;
+    }
+
+    .social-icons {
+        justify-content: center;
+    }
+}
+
+@media (max-width: 480px) {
+    .dashboard-container {
+        padding: 20px;
+    }
+
+    .dashboard-container h1 {
+        font-size: 1.5rem;
+    }
+
+    .dashboard-container h2 {
+        font-size: 1.3rem;
+    }
+
+    th, td {
+        padding: 8px;
+        font-size: 0.85rem;
+    }
+
+    .btn, .view-recommendation-btn {
+        padding: 6px 12px;
+        font-size: 0.8rem;
+    }
+
+    .nav-links a {
+        font-size: 0.9rem;
+    }
+
+    .footer-section h3 {
+        font-size: 1.2rem;
+    }
+
+    .social-icons a {
+        font-size: 1.5rem;
+    }
+
+    .modal-content {
+        padding: 15px;
+    }
+}

@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+    <link rel="stylesheet" href="/static/login.css">
+    <link rel="icon" type="image/x-icon" href="/static/favicon.ico">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+</head>
+<body>
+    <div class="container login-container">
+        <h2><i class="fas fa-sign-in-alt" style="color: #4db6ac;"></i> Login</h2>
+        <div id="error" class="error" style="display: none; color: red;"></div>
+        <div id="success" class="success" style="display: none; color: green;"></div>
+        <form id="loginForm">
+            <input type="text" id="email" placeholder="Email" required>
+            <input type="password" id="password" placeholder="Password" required>
+            <select id="role" required>
+                <option value="" disabled selected>Select Role</option>
+                <option value="user">User</option>
+                <option value="admin">Admin</option>
+            </select>
+            <button type="submit" class="btn">Login</button>
+        </form>
+        <p>Don't have an account? <a href="/signup">New User</a></p>
+        <div class="nav-links">
+            <a href="/index">Back to Home</a>
+        </div>
+    </div>
+    <script>
+        document.getElementById("loginForm").addEventListener("submit", function(event) {
+            event.preventDefault();
+
+            // Clear previous messages
+            const errorDiv = document.getElementById("error");
+            const successDiv = document.getElementById("success");
+            errorDiv.style.display = "none";
+            errorDiv.innerText = "";
+            successDiv.style.display = "none";
+            successDiv.innerText = "";
+
+            const data = {
+                email: document.getElementById("email").value.trim(),
+                password: document.getElementById("password").value,
+                role: document.getElementById("role").value
+            };
+
+            if (!data.email || !data.password || !data.role) {
+                errorDiv.innerText = "All fields are required";
+                errorDiv.style.display = "block";
+                return;
+            }
+
+            fetch("/login", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(data)
+            })
+            .then(response => response.json())
+            .then(result => {
+                if (result.success) {
+                    successDiv.innerText = result.message || "Login successful";
+                    successDiv.style.display = "block";
+                    setTimeout(() => {
+                        window.location.href = result.role === 'admin' ? '/admin_dashboard' : '/user_dashboard';
+                    }, 1500);
+                } else {
+                    errorDiv.innerText = result.message || "An error occurred";
+                    errorDiv.style.display = "block";
+                }
+            })
+            .catch(error => {
+                console.error("Login error:", error);
+                errorDiv.innerText = "An error occurred. Please try again.";
+                errorDiv.style.display = "block";
+            });
+        });
+    </script>
+</body>
+</html>
